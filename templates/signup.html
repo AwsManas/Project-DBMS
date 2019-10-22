@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SIGN UP</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href= "{{ url_for('static',filename='fonts/material-icon/css/material-design-iconic-font.min.css') }}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/style.css') }}">
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form method="POST" class="appointment-form" id="appointment-form">
+                <h2>Student Signup Page</h2>
+                <div class="form-group-1">
+                    <!--<p style = "color:#ffff00">Enter your name</p>-->
+                    <input type="text" name="name" id="name" placeholder="Enter Your Full Name" required />
+                    <input type="text" name="USN" id="USN" placeholder="Enter The USN" required />
+                    <input type="email" name="email" id="email" placeholder="Enter The Email" required />
+                    <input type="text" name="phone_number" id="phone_number" placeholder="Phone Number" required />
+                    <input type="text" name="sem" id="sem" placeholder="Which Semester Are You In?" required />
+                    <input type="text" name="sec" id="sec" placeholder="Enter Your Section" required />
+                    <input type="password" name="pass" id="pass" placeholder="Enter The Password" required />
+              
+                </div>
+                <div class="form-submit">
+                    <input type="submit" name="submit" id="submit" class="submit" value="Submit" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
