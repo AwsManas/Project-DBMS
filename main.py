@@ -24,8 +24,26 @@ def index():
         mysql.connection.commit()
         cur.close()
     return render_template("signup.html")
-@app.route('/login')
+@app.route('/login', methods= ['GET','POST'])
 def login():
+    if request.method=='POST':
+        inp = request.form
+        
+        usn = inp['username']
+        #pas = inp['pass']
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT password from signup where usn = %s',usn)
+        data = cur.fetchall()
+        '''
+        cur.close()
+        if data:
+            if data[0]==pas:
+                return "yay"
+            else:
+                return "nay"    
+        '''
+        text = "hey" + data[0]
+        return text
     return render_template("login.html")
 if __name__ == "__main__":
     app.run(debug=True)
