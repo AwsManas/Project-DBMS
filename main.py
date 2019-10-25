@@ -36,7 +36,6 @@ def login():
         data = cur.fetchall()
         cur.close()
         if data:
-            print(str(data[0])+" and " + pas)
             if data[0][0]==pas:
                 return "homepage"
             else:
