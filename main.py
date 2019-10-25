@@ -27,23 +27,22 @@ def index():
 @app.route('/login', methods= ['GET','POST'])
 def login():
     if request.method=='POST':
+        data = None
         inp = request.form
-        
         usn = inp['username']
-        #pas = inp['pass']
+        pas = inp['pass']
         cur = mysql.connection.cursor()
-        cur.execute('SELECT password from signup where usn = %s',usn)
+        cur.execute('SELECT password from signup where usn = %s',[str(usn)])
         data = cur.fetchall()
-        '''
         cur.close()
         if data:
-            if data[0]==pas:
-                return "yay"
+            print(str(data[0])+" and " + pas)
+            if data[0][0]==pas:
+                return "homepage"
             else:
-                return "nay"    
-        '''
-        text = "hey" + data[0]
-        return text
+                return "Wrong password"   
+        else:
+            return "Invald username"         
     return render_template("login.html")
 if __name__ == "__main__":
     app.run(debug=True)
