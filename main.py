@@ -1,4 +1,4 @@
-from flask import Flask , request , render_template, redirect
+from flask import Flask , request , render_template, redirect , url_for
 from flask_mysqldb import MySQL
 app = Flask(__name__)
 
@@ -37,12 +37,14 @@ def login():
         cur.close()
         if data:
             if data[0][0]==pas:
-                return "homepage"
+                return redirect( url_for('events') )
             else:
                 return "Wrong password"   
         else:
             return "Invald username"         
     return render_template("login.html")
+@app.route('/events')
+def events():
+    return render_template('events.html')    
 if __name__ == "__main__":
     app.run(debug=True)
-
