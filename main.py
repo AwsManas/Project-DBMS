@@ -23,6 +23,7 @@ def index():
         cur.execute("INSERT INTO signup VALUES (%s,%s,%s,%s,%s,%s)", (name,usn,email,phone,sem,passw))
         mysql.connection.commit()
         cur.close()
+        return redirect('fillsubjects')
     return render_template("signup.html")
 @app.route('/login', methods= ['GET','POST'])
 def login():
@@ -37,14 +38,17 @@ def login():
         cur.close()
         if data:
             if data[0][0]==pas:
-                return redirect( url_for('events') )
+                return redirect(url_for('events',name="Hey"))
             else:
                 return "Wrong password"   
         else:
             return "Invald username"         
     return render_template("login.html")
+@app.route('/fillsubjects')
+def fillsubjects():
+    return render_template("fillsubjects.html")    
 @app.route('/events')
-def events():
+def events(name):
     return render_template('events.html')    
 if __name__ == "__main__":
     app.run(debug=True)
