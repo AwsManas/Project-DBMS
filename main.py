@@ -1,7 +1,8 @@
-from flask import Flask , request , render_template, redirect , url_for
+from flask import Flask , request , render_template, redirect , url_for, session
+import json
 from flask_mysqldb import MySQL
 app = Flask(__name__)
-
+app.secret_key = 'Secret'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'M@nas4life'
@@ -23,10 +24,12 @@ def index():
         cur.execute("INSERT INTO signup VALUES (%s,%s,%s,%s,%s,%s)", (name,usn,email,phone,sem,passw))
         mysql.connection.commit()
         cur.close()
-        return redirect('fillsubjects')
+        session['usn'] = usn
+        return redirect( url_for('fillsubjects'))
     return render_template("signup.html")
 @app.route('/login', methods= ['GET','POST'])
 def login():
+    session.pop('usn', None)
     if request.method=='POST':
         data = None
         inp = request.form
@@ -38,17 +41,36 @@ def login():
         cur.close()
         if data:
             if data[0][0]==pas:
-                return redirect(url_for('events',name="Hey"))
+                session['usn']=usn
+                return redirect(url_for('events'))
             else:
                 return "Wrong password"   
         else:
             return "Invald username"         
     return render_template("login.html")
-@app.route('/fillsubjects')
+@app.route('/fillsubjects',methods = ['GET','POST'])
 def fillsubjects():
+    if 'usn' not in session:
+        return redirect( url_for('login'))
+    else:
+        usn = session['usn']    
+    if request.method=='POST':
+        inp = request.form
+        for i in range (int(inp['num'])):
+            filename = "sub" + str(i+1)
+            catten = filename + "c"
+            tatten = filename + "t"
+            courcecode = inp[filename]
+            curattend = int(inp[catten])
+            totalattend = int(inp[tatten])
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO subjects VALUES (%s,%s,%s,%s)", (usn,courcecode,curattend,totalattend))
+            mysql.connection.commit()
+            cur.close()
+        return redirect(url_for('events'))
     return render_template("fillsubjects.html")    
 @app.route('/events')
-def events(name):
+def events():
     return render_template('events.html')    
 if __name__ == "__main__":
     app.run(debug=True)
