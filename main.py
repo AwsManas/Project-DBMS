@@ -2,7 +2,7 @@ from flask import Flask , request , render_template, redirect , url_for, session
 import json
 from flask_mysqldb import MySQL
 app = Flask(__name__)
-app.secret_key = 'Secret'
+app.secret_key = 'manas'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'M@nas4life'
