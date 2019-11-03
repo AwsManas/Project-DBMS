@@ -68,7 +68,14 @@ def fillsubjects():
             mysql.connection.commit()
             cur.close()
         return redirect(url_for('events'))
-    return render_template("fillsubjects.html")    
+    return render_template("fillsubjects.html")
+@app.route('/atten')
+def attendace():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT name,usn from signup ')
+    result = cur.fetchall()
+    cur.close()
+    return render_template('atten.html',attendance =  result)        
 @app.route('/events')
 def events():
     return render_template('events.html')    
