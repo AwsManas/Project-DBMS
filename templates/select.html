@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+	HI
+</head>
+<body>
+In body
+<form method="POST"> 
+<select name = "subs">
+{% for cs in subjects %}
+<option value = {{cs[0]}}>{{cs[0]}}</option>	
+{% endfor %}
+</select>
+<select name = "sec">
+{% for sec in sections %}
+<option value = {{sec[0]}}>{{sec[0]}}</option>	
+{% endfor %}
+</select>
+<input type="submit" name="submit" id="submit" class="submit" value="Submit"  />
+</form>
+</body>

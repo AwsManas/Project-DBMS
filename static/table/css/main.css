@@ -178,15 +178,23 @@ th, td {
 .column1 {
   width: 33%;
   padding-left: 40px;
+   padding-top: 15px
+   padding-bottom: 15px;
 }
 
 .column2 {
-  width: 13%;
+  width: 33%;
+   padding-top: 15px
+    padding-bottom: 15px;
 }
 
+
 .column3 {
-  width: 22%;
+  width: 15%;
+  padding-top: 15px
+   padding-bottom: 15px;
 }
+
 
 .column4 {
   width: 19%;

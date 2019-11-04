@@ -19,9 +19,10 @@ def index():
         email = inputvalues['email']
         phone = int(inputvalues['phone_number'])
         sem = int(inputvalues['sem'])
+        sec = inputvalues['sec']
         passw = inputvalues['pass']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO signup VALUES (%s,%s,%s,%s,%s,%s)", (name,usn,email,phone,sem,passw))
+        cur.execute("INSERT INTO signup VALUES (%s,%s,%s,%s,%s,%s,%s)", (name,usn,email,phone,sem,sec,passw))
         mysql.connection.commit()
         cur.close()
         session['usn'] = usn
@@ -69,10 +70,30 @@ def fillsubjects():
             cur.close()
         return redirect(url_for('events'))
     return render_template("fillsubjects.html")
-@app.route('/atten')
-def attendace():
+@app.route('/selectclass', methods = ['GET','POST'])
+def select():
     cur = mysql.connection.cursor()
-    cur.execute('SELECT name,usn from signup ')
+    cur.execute("select distinct subjectcode from subjects")
+    result1 = cur.fetchall()
+    cur.close()
+    cur = mysql.connection.cursor()
+    cur.execute("select distinct sec  from signup")
+    result2 = cur.fetchall()
+    cur.close()
+    if request.method=='POST':
+        inp = request.form
+        sub = inp['subs']
+        sec = inp['sec']
+        session['sub'] = sub
+        session['sec'] = sec 
+        return redirect(url_for('attendence'))     
+    return render_template("select.html",subjects = result1,sections = result2)               
+@app.route('/atten')
+def attendence():
+    sec = session['sec']
+    sub = session['sub']
+    cur = mysql.connection.cursor()
+    cur.execute('select name,s.usn from signup s , subjects u where  s.sec = %s and u.subjectcode = %s and s.usn = u.usn order by s.name',(sec,sub))
     result = cur.fetchall()
     cur.close()
     return render_template('atten.html',attendance =  result)        
