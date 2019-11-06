@@ -88,7 +88,7 @@ def select():
         session['sec'] = sec 
         return redirect(url_for('attendence'))     
     return render_template("select.html",subjects = result1,sections = result2)               
-@app.route('/atten')
+@app.route('/atten',methods = ['GET','POST'])
 def attendence():
     sec = session['sec']
     sub = session['sub']
@@ -96,6 +96,19 @@ def attendence():
     cur.execute('select name,s.usn from signup s , subjects u where  s.sec = %s and u.subjectcode = %s and s.usn = u.usn order by s.name',(sec,sub))
     result = cur.fetchall()
     cur.close()
+    if request.method=='POST':
+        inp = request.form
+        for d in inp:
+            usn = str(d)
+            cur = mysql.connection.cursor()
+            cur.execute('update subjects set present = present + 1 where usn = %s and subjectcode = %s ',(usn,sub))
+            mysql.connection.commit()
+            cur.close()    
+        cur = mysql.connection.cursor()
+        cur.execute('UPDATE subjects s join signup u on s.usn = u.usn set s.total = s.total + 1 where s.subjectcode = %s and u.sec = %s;',(sub,sec))
+        mysql.connection.commit()
+        cur.close()
+        return "Lets be happy"
     return render_template('atten.html',attendance =  result)        
 @app.route('/events')
 def events():

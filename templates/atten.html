@@ -26,8 +26,10 @@
 	<div class="limiter">
 		<div class="container-table100">
 			<div class="wrap-table100">
+						<form method="POST">
+
 				<div class="table100 ver1 m-b-110">
-					<form method="POST">
+					
 						<table>
 							<div class="table100-head">
 							<thead>
@@ -39,23 +41,25 @@
 							</thead>
 							</div>	
 							<tbody>	
-								{% set index = 0 %}
+								
 								{% for row in attendance %}
-								{% set name = "s"+ index|string %}	
+									
 								<tr class="row100 body">
 									<td class="cell100 column1">{{ row[0] }}</td>
 									<td class="cell100 column2">{{row[1]}}</td>
-									<td class="cell100 coloum3"><input type="checkbox" name= {{name}} />&nbsp;</td>
+									<td class="cell100 coloum3"><input type="checkbox" name= {{row[1]}} />&nbsp;</td>
 								</tr>
+
 								{% endfor %}
 							</tbody>
 						</table>
 						<br>						
-						<input type="submit" name="submit" id="submit" class="submit" value="Submit"  />
-					</form>
 				</div>		
+				<input type="submit" id="submit" class="submit" value = "Submit attendace"  />
+		</form>
 			</div>
 		</div>
+		
 	</div>
 <!--===============================================================================================-->
 
