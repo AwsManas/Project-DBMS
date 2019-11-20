@@ -1,16 +1,18 @@
 from flask import Flask , request , render_template, redirect , url_for, session
 import json
 from flask_mysqldb import MySQL
+import yaml
+db = yaml.load(open('.gitignore/db.yaml'))
 app = Flask(__name__)
 app.secret_key = 'manas'
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'M@nas4life'
-app.config['MYSQL_DB'] = 'nie'
+app.config['MYSQL_HOST'] = db['mysql_host']
+app.config['MYSQL_USER'] = db['mysql_user']
+app.config['MYSQL_PASSWORD'] = db['mysql_password']
+app.config['MYSQL_DB'] = db['mysql_db']
 
 mysql = MySQL(app)
 
-@app.route('/',methods=['GET','POST'])
+@app.route('/signup',methods=['GET','POST'])
 def index():
     if request.method=='POST':
         inputvalues = request.form
@@ -43,11 +45,11 @@ def login():
         if data:
             if data[0][0]==pas:
                 session['usn']=usn
-                return redirect(url_for('events'))
+                return redirect(url_for('home'))
             else:
-                return "Wrong password"   
+                return "You entered a wrong password! Please Reload"   
         else:
-            return "Invald username"         
+            return "You entered a new username! Please Reload"         
     return render_template("login.html")
 @app.route('/fillsubjects',methods = ['GET','POST'])
 def fillsubjects():
@@ -72,6 +74,8 @@ def fillsubjects():
     return render_template("fillsubjects.html")
 @app.route('/selectclass', methods = ['GET','POST'])
 def select():
+    #if 'teacher' not in session:
+     #   return redirect (url_for('login_t'))
     cur = mysql.connection.cursor()
     cur.execute("select distinct subjectcode from subjects")
     result1 = cur.fetchall()
@@ -87,7 +91,7 @@ def select():
         session['sub'] = sub
         session['sec'] = sec 
         return redirect(url_for('attendence'))     
-    return render_template("select.html",subjects = result1,sections = result2)               
+    return render_template("select2.html",subjects = result1,sections = result2)               
 @app.route('/atten',methods = ['GET','POST'])
 def attendence():
     sec = session['sec']
@@ -110,8 +114,11 @@ def attendence():
         cur.close()
         return "Lets be happy"
     return render_template('atten.html',attendance =  result)        
-@app.route('/events')
-def events():
-    return render_template('events.html')    
+@app.route('/')
+def home():
+    return "This is home page"
+@app.route('/teacherlogin')
+def login_t():
+    return "This is teacher login page"    
 if __name__ == "__main__":
     app.run(debug=True)

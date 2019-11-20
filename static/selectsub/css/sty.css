@@ -1,0 +1,16 @@
+.menu
+{
+  font-size: 21px;
+  font-family: monospace;
+  position: absolute;
+  top: 10vh;
+}
+
+
+
+.menu mm
+{
+  top: 22vh;
+  position: relative;
+  cursor: pointer;
+}
