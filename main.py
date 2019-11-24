@@ -53,10 +53,10 @@ def login():
     return render_template("login.html")
 @app.route('/fillsubjects',methods = ['GET','POST'])
 def fillsubjects():
-    if 'usn' not in session:
-        return redirect( url_for('login'))
-    else:
-        usn = session['usn']    
+   # if 'usn' not in session:
+    #    return redirect( url_for('login'))
+    #else:
+     #   usn = session['usn']    
     if request.method=='POST':
         inp = request.form
         for i in range (int(inp['num'])):
@@ -70,12 +70,12 @@ def fillsubjects():
             cur.execute("INSERT INTO subjects VALUES (%s,%s,%s,%s)", (usn,courcecode,curattend,totalattend))
             mysql.connection.commit()
             cur.close()
-        return redirect(url_for('events'))
-    return render_template("fillsubjects.html")
+        return redirect(url_for('home'))
+    return render_template("fillsubs2.html")
 @app.route('/selectclass', methods = ['GET','POST'])
 def select():
-    #if 'teacher' not in session:
-     #   return redirect (url_for('login_t'))
+    if 'teacher' not in session:
+        return redirect (url_for('login_t'))
     cur = mysql.connection.cursor()
     cur.execute("select distinct subjectcode from subjects")
     result1 = cur.fetchall()
@@ -94,6 +94,8 @@ def select():
     return render_template("select2.html",subjects = result1,sections = result2)               
 @app.route('/atten',methods = ['GET','POST'])
 def attendence():
+    if 'sec'  not in session or 'sub' not in session:
+        return redirect(url_for('select'))
     sec = session['sec']
     sub = session['sub']
     cur = mysql.connection.cursor()
@@ -101,6 +103,8 @@ def attendence():
     result = cur.fetchall()
     cur.close()
     if request.method=='POST':
+        session.pop('sec',None)
+        session.pop('sub',None)
         inp = request.form
         for d in inp:
             usn = str(d)
@@ -112,13 +116,32 @@ def attendence():
         cur.execute('UPDATE subjects s join signup u on s.usn = u.usn set s.total = s.total + 1 where s.subjectcode = %s and u.sec = %s;',(sub,sec))
         mysql.connection.commit()
         cur.close()
-        return "Lets be happy"
+        return redirect(url_for('home'))
     return render_template('atten.html',attendance =  result)        
-@app.route('/')
+@app.route('/home')
 def home():
-    return "This is home page"
-@app.route('/teacherlogin')
+    return  render_template('home.html')
+@app.route('/teacherlogin',methods = ['GET','POST'])
 def login_t():
-    return "This is teacher login page"    
+    if 'teacher' in session:
+        session.pop('teacher',None)
+    if 'usn' in session:
+        session.pop('usn',None)
+    if request.method=='POST':
+        inp = request.form
+        pas = inp['pass']
+        if pas == 'admin':
+            session['teacher'] = 1
+            return redirect(url_for('attendence'))
+        else:
+            return "Wrong password entered please reload"        
+    return render_template('tlogin.html') 
+@app.route('/logout')
+def logout():
+    if 'teacher' in session:
+        session.pop('teacher',None)
+    if 'usn' in session:
+        session.pop('usn',None)
+    return redirect(url_for('home'))     
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,204 @@
+*
+{
+  margin: 0;
+  padding: 0;
+}
+
+header
+{
+  background: url('120.jpg');
+  height: 90vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.nav-bar
+{
+  background: rgba(0, 0, 0, 0.3);
+  height: 140px;
+}
+
+.logo
+{
+  float: left;
+  margin: 30px 35px;
+  height: 80px;
+}
+
+.welcome
+{
+  top: 5vh;
+  position: relative;
+  text-align: center;
+  color: #000;
+  font-size: 20px;
+}
+/*
+.logout
+{
+    font-size: 15px;
+    position: relative;
+    top: 4vh;
+    font-style: normal;
+    font-family: sans-serif;
+}
+*/
+.menu
+{
+    float: right;
+    list-style: none;
+    margin: 20px;
+}
+
+.menu xx a
+{
+  text-decoration: none;
+  display: block;
+  text-align: right;
+  position: relative;
+  top: auto;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+.menu li
+{
+  display: inline-block;
+  margin: 10px 5px;
+}
+
+.menu li a
+{
+  text-decoration: none;
+  color: yellow;
+  padding: 6px 20px;
+  font-family: inherit;
+  font-size: 29px;
+  letter-spacing: 3px;
+  border: 2px solid #000;
+  top: 7vh;
+  position: relative;
+}
+
+.menu li a:hover
+{
+  background: #fff;
+  transition: .4s;
+  color: #000;
+}
+
+.menu1
+{
+      float: left;
+      list-style: none;
+      margin: 20px;
+      position: relative;
+      left : 130px;
+      top: 99px;
+}
+
+.menu1 li
+{
+  display: inline-block;
+  margin: 10px 5px;
+  font-size: 25px;
+}
+
+.menu1 li a
+{
+  text-decoration: none;
+  color: #000;
+  padding: 6px 12px;
+  font-family: inherit;
+  border: 2px solid #000;
+  letter-spacing: 3px;
+  top: 7vh;
+  position: relative;
+  display: block;
+  text-align: right;
+  font-size: 29px;
+}
+
+.menu1 li a:hover
+{
+  background: #fff;
+  transition: .4s;
+  color: #000;
+}
+
+
+.menu2
+{
+      float: left;
+      left: 1000px;
+      list-style: none;
+      margin: 20px;
+      position: relative;
+      top: -10px;
+}
+
+.menu2 li
+{
+  display: inline-block;
+  margin: 10px 5px;
+  font-size: 25px;
+}
+
+.menu2 li a
+{
+  text-decoration: none;
+  color: #000;
+  padding: 6px 12px;
+  font-family: inherit;
+  border: 2px solid #000;
+  letter-spacing: 3px;
+  top: 7vh;
+  position: relative;
+  display: block;
+  text-align: right;
+  font-size: 29px;
+}
+
+.menu2 li a:hover
+{
+  background: #fff;
+  transition: .4s;
+  color: #000;
+}
+.menu3
+{
+      left: 400px;
+      list-style: none;
+      margin: 20px;
+      position: relative;
+      top: 100px;
+}
+
+.menu3 li
+{
+  display: inline-block;
+  margin: 10px 5px;
+  font-size: 25px;
+}
+
+.menu3 li a
+{
+  text-decoration: none;
+  color: #000;
+  padding: 6px 12px;
+  font-family: inherit;
+  border: 2px solid #000;
+  letter-spacing: 3px;
+  top: 7vh;
+  position: relative;
+  display: block;
+  text-align: center;
+  font-size: 29px;
+}
+
+.menu3 li a:hover
+{
+  background: #fff;
+  transition: .4s;
+  color: #000;
+}

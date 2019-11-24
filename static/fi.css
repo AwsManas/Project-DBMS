@@ -1,0 +1,84 @@
+header
+{
+  background: url('../im/120.jpg') ;
+  width: 100%;
+  height: 110vh;
+  background-size: auto ;
+}
+
+#students
+{
+  width: 500px;
+  /*border-spacing: 10px;*/
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  border: 2px solid #000;
+}
+
+#students th
+{
+  border: 2px solid #000;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  color: black;
+  height: 50px;
+}
+
+#students, #students th, #students td
+{
+  border: 2px solid #000;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+#students, #students td
+{
+  padding: 15px;
+}
+
+/*#students tr:nth-child(even)
+{
+  background-color: #fff;
+}
+
+#students tr:nth-child(odd)
+{
+  background-color: #ddd;
+}
+*/
+
+#students td, #students th
+{
+  border: 2px solid #000;
+  text-align: left;
+  padding: 15px;
+}
+
+#students tr:hover
+{
+  background-color: #fff;
+}
+
+.butn
+{
+  background-color: #347ADB;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  font-family: monospace;
+  color: white;
+  width: 10%;
+}
+
+.wrapper
+{
+    text-align: center;
+}
+
+.button
+{
+    position: absolute;
+    top: 50%;
+}

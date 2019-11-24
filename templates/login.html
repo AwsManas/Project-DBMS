@@ -5,23 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="{{ url_for('static',filename = 'images/icons/favicon.ico')}}"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename = 'vendor2/bootstrap/css/bootstrap.min.css') }}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=" {{ url_for('static',filename = 'vendor2/animate/animate.css')}}  ">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href=" {{ url_for('static' , filename = 'vendor2/css-hamburgers/hamburgers.min.css') }}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename = 'vendor2/animsition/css/animsition.min.css') }}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=" {{ url_for('static',filename = 'vendor2/select2/select2.min.css') }} ">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href=" {{ url_for('static',filename = 'vendor2/daterangepicker/daterangepicker.css') }}  ">
+
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href=" {{ url_for('static',filename = 'css/util.css') }} ">
 	<link rel="stylesheet" type="text/css" href=" {{ url_for('static',filename = 'css/main.css') }}">
@@ -51,12 +35,20 @@
 						<span class="focus-input100"></span>
 					</div>
 
-					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+					<div class="container-login100-form-btn0">
+						<button class="login100-form-btn0">
 							Login
 						</button>
 					</div>
 				</form>
+				<div class="container-login100-form-btn1">
+				<a href=" {{ url_for('index') }} " class="login100-form-btn1" role="button">Sign Up</a>	
+				<!-- <button class="login100-form-btn1" >Sign Up
+						</button> -->
+					</div>
+				<div class="container-login100-form-btn2">
+						<a href=" {{ url_for('login_t') }} " class="login100-form-btn1" role="button">Admin Login</a>	
+					</div>	
 			</div>
 		</div>
 	</div>

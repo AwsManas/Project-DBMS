@@ -19,6 +19,7 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='table/css/util.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='table/css/main.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='selectsub/css/main.css')}}">
 	<style type="text/css">
 .topnav {
   background-color: #333;
@@ -29,7 +30,7 @@
   float: left;
   color: #f2f2f2;
   text-align: center;
-  padding: 20px 20px;
+  padding: 20px 16px;
   text-decoration: none;
   font-size: 16px;
 }
@@ -42,7 +43,10 @@
 	<!-- <link rel="stylesheet" href="{{ url_for('static',filename = 'css/signupstyle.css') }}"> -->
 <!--===============================================================================================-->
 </head>
-<body>
+<body background="{{ url_for('static',filename='css/120.jpg') }}">
+	<br>
+	<h1 align="center">SUBMIT ATTENDENCE</h1>
+	<br>
 	<div class="topnav">
       <a href="{{ url_for('home') }}">Home</a>
       <a href="{{ url_for('home') }}">Profile</a>
@@ -87,8 +91,10 @@
 						</table>
 						<br>						
 				</div>		
-				<div class = "form-submit">
-				<input type="submit" id="submit" class="submit" value = "Submit attendace"  />
+				<mm>
+            <button type="submit" class="btn btn-primary btn-block">Submit Attendance</button></mm>
+				<!-- <div class = "form-submit">
+				<input type="submit" id="submit" class="submit" value = "Submit attendace"  /> -->
 			</div>
 		</form>
 			</div>
