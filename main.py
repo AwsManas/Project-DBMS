@@ -1,4 +1,7 @@
-from flask import Flask , request , render_template, redirect , url_for, session
+from flask import Flask , request , render_template, redirect , url_for, session,flash
+import datetime
+from datetime import date
+from flask_mail import Message, Mail
 import json
 from flask_mysqldb import MySQL
 import yaml
@@ -9,8 +12,15 @@ app.config['MYSQL_HOST'] = db['mysql_host']
 app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'proj.nie.12@gmail.com'
+app.config['MAIL_PASSWORD'] = "nie123456"
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 
 mysql = MySQL(app)
+mail = Mail(app)
 
 @app.route('/signup',methods=['GET','POST'])
 def index():
@@ -47,16 +57,16 @@ def login():
                 session['usn']=usn
                 return redirect(url_for('home'))
             else:
-                return "You entered a wrong password! Please Reload"   
+                flash("Invalid credentials")
         else:
-            return "You entered a new username! Please Reload"         
+            flash("Invalid credentials")         
     return render_template("login.html")
 @app.route('/fillsubjects',methods = ['GET','POST'])
 def fillsubjects():
-   # if 'usn' not in session:
-    #    return redirect( url_for('login'))
-    #else:
-     #   usn = session['usn']    
+    if 'usn' not in session:
+        return redirect( url_for('login'))
+    else:
+        usn = session['usn']    
     if request.method=='POST':
         inp = request.form
         for i in range (int(inp['num'])):
@@ -71,7 +81,7 @@ def fillsubjects():
             mysql.connection.commit()
             cur.close()
         return redirect(url_for('home'))
-    return render_template("fillsubs2.html")
+    return render_template("fillsubs3.html")
 @app.route('/selectclass', methods = ['GET','POST'])
 def select():
     if 'teacher' not in session:
@@ -132,7 +142,7 @@ def login_t():
         pas = inp['pass']
         if pas == 'admin':
             session['teacher'] = 1
-            return redirect(url_for('attendence'))
+            return redirect(url_for('select'))
         else:
             return "Wrong password entered please reload"        
     return render_template('tlogin.html') 
@@ -142,6 +152,77 @@ def logout():
         session.pop('teacher',None)
     if 'usn' in session:
         session.pop('usn',None)
-    return redirect(url_for('home'))     
+    return redirect(url_for('home'))
+@app.route('/stats')
+def stats():
+    labels = ["I Year" , "II Year","III Year","IV Year"]
+    values = []
+    
+    return render_template("stats.html")  
+@app.route('/cgpaCalc', methods = ['GET', 'POST'])
+def sfg(): 
+    if 'usn' in session:
+        cgpa = ''
+        if request.method == "POST":
+            grade=[]
+            cred=[]
+            gp=[]
+            for i in range(1,10):
+                grade.append(request.form['Grade'+str(i)])
+                cred.append(float(request.form['cred'+str(i)]))
+            for i in range(0,9):
+                if grade[i] == "S":
+                    gp.append(10.0)
+                elif grade[i] == "A":
+                    gp.append(9.0)
+                elif grade[i] == "B":
+                    gp.append(8.0)
+                elif grade[i] == "C":
+                    gp.append(7.0)
+                elif grade[i] == "D":
+                    gp.append(6.0)
+                else:
+                    gp.append(0.0)
+            sum1 = 0
+            for i in range(0,9):
+                sum1 = sum1 + (gp[i]*cred[i])
+            tot = 0
+            for x in cred:
+                tot = tot+x
+            cgpa = sum1/tot
+            cgpa = round(cgpa,2)
+            return render_template('CGPA.html', cgpa=cgpa)
+        return render_template('CGPA.html', cgpa=cgpa)
+    else:
+        return redirect(url_for('home'))
+@app.route('/creategroup', methods = ['GET', 'POST'])
+def creategroup():
+    if 'usn' in session: 
+        if request.method == 'POST':
+            sub = request.form['sub']
+            maxno = request.form['max']
+            usn = session['usn']
+            cur  = mysql.connection.cursor()
+            cur.execute('insert into study(subject,maxno,curno,leader) values(%s, %s, 0, %s)',(sub, maxno, usn))
+            mysql.connection.commit()
+            cur.close()
+            return redirect(url_for('groups'))
+        return render_template('create.html') 
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/groups')
+def groups():
+    if 'usn' in session: 
+        cur = mysql.connection.cursor() #creates a cursor that points to the database
+        groups = cur.execute("select * from study") #fetches the number of rows in the table
+        if groups:
+            group_details = cur.fetchall()# Fetches all the rows in the table
+        else:
+            group_details = "No Groups Available."
+        return render_template('groups2.html', groups = group_details)
+    else:
+        return redirect(url_for('login'))
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create_Group</title>
+    <link rel="stylesheet"  type="text/css" href="{{ url_for('static',filename='css/cre.css') }}">
+    <style>
+      .topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 20px 16px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+        input
+         {
+           width: 80%;
+           padding: 8px 6px 8px 12px;
+           background: #fff;
+           border: 1px solid #000;
+
+         }
+    </style>
+</head>
+<body>
+  <header>
+    <h1 align = "center">CREATE A NEW STUDY GROUP</h1>
+    <br>
+    <div class="topnav">
+      <a href="{{ url_for('home') }}">  Home</a>
+      <a href="{{ url_for('home') }}">Profile</a>
+      <a href="{{ url_for('sfg') }}">CGPA Calculator</a>
+      <a href="{{ url_for('select')}}">Attendance</a>
+      <a href="{{ url_for('home') }}">Generate Study Groups</a>
+      <a href="{{ url_for('home') }}">Existing Study Groups</a>
+      <a href="{{ url_for('home')}}">Generate Events</a>
+      <a href="{{ url_for('home')}}">View Events</a>
+      <a href="{{ url_for('home')}}">Stats</a>
+      <a href= "{{ url_for('home') }}">About US</a>
+      <a href = "{{ url_for('login')}}">Login</a>
+      <a href="{{ url_for('logout') }}">   Logout</a>
+   </div>
+    <form method="POST">
+      <div class="menn">
+        <table align="center">
+            <tr>
+                <td>
+                    <h4><mark>SUBJECT : </mark></h4>
+                </td>
+                <td>
+                    <input type="text" name="sub">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4><mark>MAXIMMUM NUMBER OF PARTICIPANTS : </mark></h4>
+                </td>
+                <td>
+                    <input type="number" name="max">
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <div class="wrapper">
+        <button class="butn" type="submit" value="Submit"><b>Submit</b></button>
+        </div>
+      </div>
+    </form>
+  </header>
+</body>
+</html>

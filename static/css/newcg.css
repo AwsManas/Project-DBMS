@@ -1,0 +1,63 @@
+.butn
+{
+  background-color: #347ADB;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  font-family: monospace;
+  color: white;
+  width: 10%;
+}
+
+.button
+{
+    position: absolute;
+    top: 50%;
+}
+
+.wrapper
+{
+    text-align: center;
+}
+
+header
+{
+  background: url('120.jpg');
+  height: 120vh;
+  background-size: cover;
+  background-position: center;
+   background-size: auto;
+}
+
+.Grade
+{
+  font-size: 20px;
+  width: 100%;
+  height:100%;
+  font-family: monospace;
+  background: lightgrey;
+  border: 1px solid #000;
+ }
+
+.Grade .sel
+{
+  position: center;
+  width: 200%;
+  height: 200%;
+}
+
+.Grade .sel select{
+  width: 50%;
+  height: 100%;
+  background: transparent;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+/*
+.Grade .posi .input{
+  width: 50%;
+  height: 100%;
+}
+*/

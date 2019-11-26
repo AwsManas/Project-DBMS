@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Groups</title>
+    <link rel="stylesheet"  type="text/css" href="{{ url_for('static',filename='css/grou.css') }}">
+</head>
+<body>
+  <header>
+    <div class="menu">
+    <div align="right"><strong><a href="/creategroup"><h4 style="color:black;">Create new group</h4></a></strong></div><br>
+  </div>
+    <!-- {{groups}} -->
+    <table id="students" align="center">
+        <tr>
+            <th>Group No.</th>
+            <th>Subject</th>
+            <th>Max Allowed</th>
+            <th>Current Count</th>
+        </tr>
+        <br>
+        <br>
+        {% for group in groups %}
+            <tr>
+                <td>{{group[0]}}</td>
+                <td>{{group[1]}}</td>
+                <td>{{group[2]}}</td>
+                <td>{{group[3]}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+  </header>
+</body>
+</html>

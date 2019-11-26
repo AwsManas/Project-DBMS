@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Fillsubject</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/new.css') }}" type="text/css" media="screen">
+    <style>
+     input
+      {
+        width: 90%;
+        /* padding: 8px 6px 8px 12px; */
+        border: 1px solid #000;
+        background-color : lightgrey;
+        opacity: 0.9; 
+        font-weight: bold;
+      }
+      table, th, td {
+  border: 3px solid black;
+  border-collapse: collapse;
+}
+     </style>
+  </head>
+  <body>
+    <header>      
+    <br>  
+    <h1 align="center">FILL IN SUBJECT</h1>
+    <br>      
+    <div class="topnav">
+      <a href="{{ url_for('home') }}">  Home</a>
+      <a href="{{ url_for('home') }}">Profile</a>
+      <a href="{{ url_for('home') }}">CGPA Calculator</a>
+      <a href="{{ url_for('select')}}">Attendance</a>
+      <a href="{{ url_for('home') }}">Generate Study Groups</a>
+      <a href="{{ url_for('home') }}">Existing Study Groups</a>
+      <a href="{{ url_for('home')}}">Generate Events</a>
+      <a href="{{ url_for('home')}}">View Events</a>
+      <a href="{{ url_for('home')}}">Stats</a>
+      <a href= "{{ url_for('home') }}">About US</a>
+      <a href = "{{ url_for('login')}}">Login</a>
+      <a href="{{ url_for('logout') }}">   Logout</a>
+   </div>
+      <aa align="center">
+    <form  method="POST">
+      <div class="abc" align = "center">
+      <h2><b>Number of Subjects</b></h2><input type="text" name="num"></div><br>
+    </aa>
+    <table id="students" align="center" bgcolor = "white" opacity = 0.9>
+      <tr>
+        <th><b>SUBJECT NAME</b></th>
+        <th><b>PRESENT ATTENDANCE</b></th>
+        <th><b>TOTAL ATTENDANCE</b></th>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub1"></td>
+        <td><input type="text" name="sub1c"></td>
+        <td><input type="text" name="sub1t"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub2"></td>
+        <td><input type="text" name="sub2c"></td>
+        <td><input type="text" name="sub2t"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub3"></td>
+        <td><input type="text" name="sub3c"></td>
+        <td><input type="text" name="sub3t"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub4"></td>
+        <td><input type="text" name="sub4c"></td>
+        <td><input type="text" name="sub4t"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub5"></td>
+        <td><input type="text" name="sub5c"></td>
+        <td><input type="text" name="sub5t"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub6"></td>
+        <td><input type="text" name="sub6c"></td>
+        <td><input type="text" name="sub6t"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub7"></td>
+        <td><input type="text" name="sub7c"></td>
+        <td><input type="text" name="sub7t"></td>
+      </tr>
+    </table>
+    <br>
+    <div class="wrapper">
+    <button class="butn" type="submit" value="Submit"><b>Submit</b></button>
+    </div>
+  </form>
+</header>
+  </body>
+</html>
