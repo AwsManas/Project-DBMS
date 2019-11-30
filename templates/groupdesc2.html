@@ -102,7 +102,7 @@
       <a href="{{ url_for('addevent')}}">Generate Events</a>
       <a href="{{ url_for('events')}}">View Events</a>
       <a href="{{ url_for('stats')}}">Stats</a>
-      <a href= "{{ url_for('home') }}">About US</a>
+      <a href= "{{ url_for('aboutus') }}">About US</a>
       <a href = "{{ url_for('login')}}">Login</a>
       <a href="{{ url_for('logout') }}">   Logout</a>
    </div>
@@ -140,5 +140,6 @@
         </table>
     </div>
 </section>
+<a href="{{url_for('selgroup')}}"><strong style="color: yellow;">Click here to join a group</strong></a>
 </body>
 </html>>

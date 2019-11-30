@@ -218,6 +218,8 @@ def logout():
     return redirect(url_for('home'))
 @app.route('/stats')
 def stats():
+    if'teacher' not in session:
+        return redirect(url_for('login_t'))    
     labels = ["I Year" , "II Year","III Year","IV Year"]
     values = []
     cur = mysql.connection.cursor()
