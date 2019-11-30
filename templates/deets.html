@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DateAndTime</title>
+    <link rel="stylesheet"  type="text/css" href="{{ url_for('static',filename='css/dee.css') }}">
+    <style>
+        input
+         {
+           width: 10%;
+           padding: 8px 6px 8px 12px;
+           background: #fff;
+           border: 1px solid #000;
+           font-size: 13px;
+           font-family: monospace;
+         }
+    </style>
+</head>
+<body>
+  <header>
+    <br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+              <font color="red">{{ message }}</font>
+            {% endfor %}
+        {% else %}
+        <br>
+        {% endif %}
+    {% endwith %}
+    <br>
+    <form method="post">
+        <h4 align="center">Enter the date:</h4>
+        <h1 align="center"><input type="date" name="date1" id=""><h1>
+        <br>
+        <h4 align="center">Enter the Venue:</h4>
+        <h1 align="center"><input type="text" name="venue" id=""><h1>
+        <br>
+        <h4 align="center">Enter the Time:</h4>
+        <h1 align="center"><input type="time" name="time" id=""><h1>
+        <div class="wrapper">
+        <button class="butn" type="submit" value="Submit"><b>Submit</b></button>
+        </div>
+    </form>
+  </header>
+</body>
+</html>

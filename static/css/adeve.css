@@ -1,0 +1,73 @@
+header
+{
+  background: url('220.jpg');
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+
+#students
+{
+  width: 500px;
+  /*border-spacing: 10px;*/
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+}
+
+#students, #students td
+{
+  padding: 3px;
+}
+
+.search_categories
+{
+  font-size: 13px;
+  padding: 8px 6px 8px 12px;
+  width: 50%;
+  font-family: monospace;
+  background: #fff;
+  border: 1px solid #000;
+  overflow: visible;
+  position: relative;
+}
+
+.search_categories .select
+{
+  width: 85%;
+}
+
+.search_categories .select select{
+  background: transparent;
+  line-height: 1;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  width: 120%;
+  position: relative;
+  font-family: monospace;
+  z-index: 10;
+  font-size: 17px;
+}
+
+.butn
+{
+  background-color: #347ADB;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  font-family: monospace;
+  color: white;
+  width: 10%;
+}
+
+.button
+{
+    position: absolute;
+    top: 50%;
+}
+
+.wrapper
+{
+    text-align: center;
+}

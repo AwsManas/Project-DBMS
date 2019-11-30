@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Student | GROUPS</title>
+    <link rel="stylesheet"  type="text/css" href="{{ url_for('static',filename='css/studg.css') }}">
+    <style>
+        .success{
+            color: green;
+        }
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <br>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category,message in messages %}
+             <p class="{{category}}">{{ message }}</p>
+            {% endfor %}
+        {% else %}
+        <p>&nbsp</p>
+        {% endif %}
+    {% endwith %}
+
+<form method = "POST">
+  <div class="menn">
+    <h3>SELECT GROUP ID:</h3></div>
+    <div class="search_categories">
+      <div class="select">
+        <select name="groupnum" id="search_categories">
+
+    {% for studs in stud %}
+        <option value="{{studs}}">{{studs}}</option>
+    {% endfor %}
+    </select>
+    </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="wrapper">
+    <button class="butn" type="submit" value="Submit"><b>Submit</b></button>
+    </div>
+ </form>
+ </header>
+</body>
+</html>

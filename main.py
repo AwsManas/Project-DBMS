@@ -49,12 +49,13 @@ def login():
         usn = inp['username']
         pas = inp['pass']
         cur = mysql.connection.cursor()
-        cur.execute('SELECT password from signup where usn = %s',[str(usn)])
+        cur.execute('SELECT password,email from signup where usn = %s',[str(usn)])
         data = cur.fetchall()
         cur.close()
         if data:
             if data[0][0]==pas:
                 session['usn']=usn
+                session['email'] = data[0][1]
                 return redirect(url_for('home'))
             else:
                 flash("Invalid credentials")
@@ -82,6 +83,21 @@ def fillsubjects():
             cur.close()
         return redirect(url_for('home'))
     return render_template("fillsubs3.html")
+@app.route('/att')
+def att():
+    if 'usn' not in session:
+        return redirect(url_for('login'))
+    cur = mysql.connection.cursor()
+    cur.execute("select  subjectcode,present,total from subjects where usn = '%s' "%(session['usn']))
+    result1 = cur.fetchall()
+    sub=0
+    for a in result1:
+        pre = int(a[1])
+        tot = int(a[2])
+        if pre/tot < 0.75:
+            sub = sub+1
+    cur.close()     
+    return render_template('studentatten.html',table =result1,num=sub)        
 @app.route('/selectclass', methods = ['GET','POST'])
 def select():
     if 'teacher' not in session:
@@ -130,7 +146,54 @@ def attendence():
     return render_template('atten.html',attendance =  result)        
 @app.route('/home')
 def home():
-    return  render_template('home.html')
+    if 'usn' not in session:
+        return redirect(url_for('login'))
+    cur = mysql.connection.cursor() 
+    events = cur.execute("select * from events order by date") #fetches the number of rows in the table
+    if events:
+        event_details = cur.fetchall()# Fetches all the rows in the table
+    else:
+        event_details = "No events at the moment."
+    msg1 = "None"
+    msg2 = "None"
+    curdate = ''
+    flag = False
+    cur.execute('select current_date()')
+    data1 = cur.fetchall()
+    curdate = str(data1[0][0])
+    print(curdate)
+    cur.execute('select * from notiflistgr where usn = "%s"' %(session['usn']))
+    data1 = cur.fetchall()
+    print(data1)
+    dates = []
+    for row in data1:
+        dates.append((row[1]-datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+    print(dates)
+    for date in dates:
+        if date == curdate:
+            msg1 = "You have a group discussion(s) tomorrow."
+            flag = True          
+        else:
+            if flag == False:
+                msg1 = "None."
+    flag = False
+    cur.execute('select * from notiflistev where usn = "%s"' %(session['usn']))
+    data2 = cur.fetchall()
+    print(data2)
+    dates2 = []
+    for row2 in data2:
+        dates2.append((row2[1]-datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+    print(dates2)
+    for date in dates2:
+        if date == curdate:
+            msg2 = "You have an event(s) to attend tomorrow." 
+            print(msg2) 
+            print("!")   
+            flag = True     
+        else:
+            if flag == False:
+                msg2 = "None."
+    return  render_template('home.html',msg1=msg1,msg2=msg2)
 @app.route('/teacherlogin',methods = ['GET','POST'])
 def login_t():
     if 'teacher' in session:
@@ -157,8 +220,47 @@ def logout():
 def stats():
     labels = ["I Year" , "II Year","III Year","IV Year"]
     values = []
-    
-    return render_template("stats.html")  
+    cur = mysql.connection.cursor()
+    cur.execute('select count(usn) from signup')
+    noofstu = cur.fetchall()
+    ns = noofstu[0][0]
+    cur.close()
+    cur = mysql.connection.cursor()
+    cur.execute('select count(usn) from signup where sem = 1 or sem = 2')
+    noofstu = cur.fetchall()
+    values.append(noofstu[0][0])
+    cur.close()
+    cur = mysql.connection.cursor()
+    cur.execute('select count(usn) from signup where sem = 3 or sem = 4')
+    noofstu = cur.fetchall()
+    values.append(noofstu[0][0])
+    cur.close()
+    cur = mysql.connection.cursor()
+    cur.execute('select count(usn) from signup where sem = 5 or sem = 6')
+    noofstu = cur.fetchall()
+    values.append(noofstu[0][0])
+    cur.close()
+    cur = mysql.connection.cursor()
+    cur.execute('select count(usn) from signup where sem = 7 or sem = 8')
+    noofstu = cur.fetchall()
+    values.append(noofstu[0][0])
+    cur.close()
+    cur = mysql.connection.cursor()
+    cur.execute('select count(usn) from subjects where present/total < 0.75')
+    noofstu = cur.fetchall()
+    faults = noofstu[0][0]
+    cur.close()
+    cur = mysql.connection.cursor()
+    cur.execute('select count(subject) from study')
+    noofstu = cur.fetchall()
+    groups = noofstu[0][0]
+    cur.close()
+    cur = mysql.connection.cursor()
+    cur.execute('select count(ename) from events')
+    noofstu = cur.fetchall()
+    events = noofstu[0][0]
+    cur.close()
+    return render_template("stats2.html",ns=ns,values=values,faults=faults,labels=labels,groups = groups,events=events)  
 @app.route('/cgpaCalc', methods = ['GET', 'POST'])
 def sfg(): 
     if 'usn' in session:
@@ -220,9 +322,337 @@ def groups():
             group_details = cur.fetchall()# Fetches all the rows in the table
         else:
             group_details = "No Groups Available."
-        return render_template('groups2.html', groups = group_details)
+        return render_template('groupdesc2.html', groups = group_details)
     else:
         return redirect(url_for('login'))
 
+@app.route("/eventreg", methods = ['GET', 'POST'])
+def eventreg():
+    if 'usn' in session:
+        events = []
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT ename from events')
+        eventdata = cur.fetchall()
+        if eventdata:
+            for x in eventdata:
+                events.append(x[0])
+        else:
+            return "error"
+        if request.method == 'POST':
+            usn = session['usn']
+            pemail = request.form['email']
+            ename = request.form['event']
+            pname = request.form['name']
+            ph = request.form['ph']
+            
+            try:
+                cur.execute('insert into eventreg values("%s","%s","%s","%s","%s")' %(usn, ename, pemail, ph, pname))
+                mysql.connection.commit()
+                flash("Registered successfully!","success")
+                cur.execute('select * from events where ename="'+ename+'"')
+                eventDetails = cur.fetchall()    
+                cur.close()
+                messageBody ="""
+                Thank you for registering! Here are the details of the event - 
+
+                    Event Name: %s
+                    Date: %s
+                    Venue: %s
+                    Time: %s
+                    
+                For further queries, contact any of the office bearers of the respective clubs and they will help you. You will receive a notificaton on your student profile the day before the event to serve as a reminder.
+                    
+                Regards
+                Team NIE
+                """%(eventDetails[0][1],eventDetails[0][3],eventDetails[0][5],eventDetails[0][4])
+                sender = "proj.nie.12@gmail.com"
+                receivers = [pemail] #Can have multiple recipients
+                subject = "Registration Successful"
+                message = Message(subject, sender=sender,recipients=receivers)
+                message.body = messageBody
+                mail.send(message)
+                mysql.connection.commit()
+            except:
+                flash("You've already registered!","error")
+            
+            return render_template('eventreg.html', events = events)
+        return render_template('eventreg.html', events = events)
+       
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/addevents', methods = ['GET', 'POST'])
+def addevent():
+    if 'usn' in session: 
+        if request.method == 'POST':
+            club = request.form['club']
+            name = request.form['ename']
+            date = request.form['edate']
+            time = request.form['etime']
+            venue = request.form['venue']
+            desc = request.form['desc']
+            cur  = mysql.connection.cursor()
+            cur.execute('insert into events values("%s", "%s", "%s", "%s", "%s", "%s")' %(club, name, desc, date, time, venue))
+            mysql.connection.commit()
+            cur.close()
+            return redirect(url_for('events'))
+        return render_template('addevents.html') 
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/events', methods = ['GET', 'POST'])
+def events():
+    if 'usn' in session:
+        cur = mysql.connection.cursor() 
+        events = cur.execute("select * from events order by date") #fetches the number of rows in the table
+        if events:
+            event_details = cur.fetchall()# Fetches all the rows in the table
+        else:
+            event_details = "No events at the moment."
+        msg1 = ""
+        msg2 = ""
+        curdate = ''
+        flag = False
+        cur.execute('select current_date()')
+        data1 = cur.fetchall()
+        curdate = str(data1[0][0])
+        print(curdate)
+        cur.execute('select * from notiflistgr where usn = "%s"' %(session['usn']))
+        data1 = cur.fetchall()
+        print(data1)
+        dates = []
+        for row in data1:
+            dates.append((row[1]-datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+        print(dates)
+        for date in dates:
+            if date == curdate:
+                msg1 = "You have a group discussion(s) tomorrow."
+                flag = True          
+            else:
+                if flag == False:
+                    msg1 = "None."
+        flag = False
+        cur.execute('select * from notiflistev where usn = "%s"' %(session['usn']))
+        data2 = cur.fetchall()
+        print(data2)
+        dates2 = []
+        for row2 in data2:
+            dates2.append((row2[1]-datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+        print(dates2)
+        for date in dates2:
+            if date == curdate:
+                msg2 = "You have an event(s) to attend tomorrow." 
+                print(msg2) 
+                print("!")   
+                flag = True     
+            else:
+                if flag == False:
+                    msg2 = "None."
+
+        if request.method == 'POST':
+            club = request.form['club']
+            if club == 'all':
+                events = cur.execute("select * from events order by date") #fetches the number of rows in the table
+                if events:
+                    event_details = cur.fetchall()# Fetches all the rows in the table
+                else:
+                    event_details = " "
+            else:
+                events = cur.execute('SELECT * from events where club = "%s" order by date'%(club)) 
+                if events:
+                    event_details = cur.fetchall()# Fetches all the rows in the table
+                else:
+                    event_details = " "
+           
+            return render_template('events2.html', events = event_details)
+        else:
+            return render_template('events2.html', events = event_details)
+    else:
+        return redirect(url_for('login'))            
+
+@app.route('/adddatetime/<gno>', methods = ['GET', 'POST'])
+def adddatetime(gno):
+    if 'usn' in session:
+        cur = mysql.connection.cursor()
+        studgr = []
+        cur.execute("select group_id from group_discussion")
+        studsgr = cur.fetchall()
+        if studsgr:
+            for x in studsgr:
+                studgr.append(x[0])
+        print(studgr)
+        if request.method == 'POST':
+            cur.execute('SELECT leader from study where group_id = %s', str(gno))
+            data2 = cur.fetchall()
+            if data2:
+                lead = data2[0][0]
+            else:
+                return "error"
+            
+            if session['usn'] == lead:
+                date = request.form['date1']   
+                venue = request.form['venue'] 
+                print(gno)  
+                time = request.form['time']
+                flag = False
+                try:      
+                    for x in studgr:
+                        print(x)
+                        if int(gno) == int(x):
+                            print("hey")
+                            flag = True
+                            cur.execute('update group_discussion set date = "%s", venue = "%s", time = "%s" where group_id = "%s"' %(date,venue,time,gno)) 
+                            mysql.connection.commit()
+                            
+                    if flag == False:
+                        cur.execute('insert into group_discussion values(%s,%s,%s,%s)', (gno,date,venue,time)) 
+                        mysql.connection.commit()
+                    flash('addition/modification successful!', "success")
+                except:
+                    flash('addition/modification unsuccessful. Please try again.', "error")    
+            else:
+                flash("WARNING : Only leaders can modify the settings.")
+            return render_template('deets.html')
+        else:
+            return render_template('deets.html')
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/youreventsandgroups', methods = ['GET', 'POST'])
+def yours():
+    sfinal = []
+    if 'usn' in session:
+        cur = mysql.connection.cursor()
+        final = cur.execute('select * from studfinal where usn = "%s"' %(session['usn']))
+        sfinal=[]
+        if final:
+            sfinal = cur.fetchall()
+        else:
+            print("No group registrations")
+
+        final = cur.execute('select * from eventfinal where usn = "%s"' %(session['usn']))
+        efinal = []
+        if final:
+            efinal = cur.fetchall()
+        cur.close()
+        return render_template('event_group1.html', sfinal = sfinal, efinal = efinal) 
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/selectgroup', methods = ['GET', 'POST'])
+def selgroup():
+    if 'usn' in session: 
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT max(group_id) from study')
+        data1 = cur.fetchall()
+        if data1:
+            idd = data1[0][0]
+        else:
+            return "error"
+        stud = []
+        cur.execute("select group_id from study")
+        studs = cur.fetchall()
+        if studs:
+            for x in studs:
+                stud.append(x[0])
+        cur.connection.commit()
+        cur.close()    
+        
+        if request.method == 'POST':
+            usn = (session['usn'])
+            groupno = request.form['groupnum']
+            pemail = session['email']
+            groupdeets = []
+            cur = mysql.connection.cursor()
+            cur.execute('select maxno, curno from study where group_id = %s' %(groupno))
+            maxg = cur.fetchall()
+            if maxg:
+                try:
+                    maxno = maxg[0][0] 
+                    curno = maxg[0][1]
+                    if maxno > curno:        
+                        cur.callproc('ins', [usn,groupno,session['email']])
+                        mysql.connection.commit()
+                        cur.execute('select * from temp where group_id = "%s"' %(groupno))
+                        groupdeets = cur.fetchall()    
+                        print(groupdeets)
+                        flash("You have been added to the group successfully!","success")
+            
+                        messageBody ="""
+                    Thank you for registering! Here are the details of the group discussion - 
+
+                        Group ID: %s
+                        Subject: %s
+                        Date: %s
+                        Venue: %s
+                        Time: %s
+                        
+                    For further queries, contact the group leader, and they will help you. You will receive a notificaton on your student profile the day before the the group discussion meet to serve as a reminder.
+                        
+                    Regards
+                    Team NIE
+                        """%(groupdeets[0][0],groupdeets[0][1],groupdeets[0][2],groupdeets[0][3],groupdeets[0][4] )
+                        sender = "proj.nie.12@gmail.com"
+                        receivers = [pemail] #Can have multiple recipients
+                        subject = "Registration Successful"
+                        message = Message(subject, sender=sender,recipients=receivers)
+                        message.body = messageBody
+                        mail.send(message)
+                    else:
+                        flash("Group Limit reached! Registration Unsuccessful.", "error")
+            
+                except:
+                    flash("You're already in the group!","error")
+                cur.close()
+            mysql.connection.commit() 
+            return render_template('studg.html', idd = idd, stud = stud)
+        return render_template('studg.html', idd = idd, stud = stud)
+    else:
+        return redirect(url_for('login'))
+@app.route('/yourprofile')
+def profile():
+    if 'usn' in session:
+        cur = mysql.connection.cursor()
+        cur.execute('select * from signup where usn = "%s"' %(session['usn']))
+        prof = cur.fetchall()
+        if prof:
+            name = prof[0][0]
+            email = prof[0][2]
+            sem = prof[0][4]
+            sec = prof[0][5]
+            ph = prof[0][3]
+        cur.close()
+        mysql.connection.commit()
+        return render_template('profile2.html', name = name, email = email, sem = sem, sec = sec, ph = ph)
+    else:
+        return redirect(url_for('login'))
+@app.route('/editprofile', methods = ['GET', 'POST'])
+def editp():
+    if 'usn' in session:
+        cur = mysql.connection.cursor()
+        cur.execute('select * from signup where usn = "%s"' %(session['usn']))
+        prof = cur.fetchall()
+        if prof:
+            name = prof[0][0]
+            email = prof[0][2]
+            sem = prof[0][4]
+            sec = prof[0][5]
+            ph = prof[0][3]
+        if request.method == 'POST':
+            name = request.form['nname'] 
+            email = request.form['nemail']
+            sem = request.form['nsem'] 
+            sec = request.form['nsec']
+            ph = request.form['nphone']
+            cur.execute("update signup set name = '%s', email = '%s', sem = '%s', sec = '%s', phone = '%s' where usn = '%s'" %(name, email, sem, sec, ph, session['usn']))   
+            mysql.connection.commit() 
+            return redirect(url_for('profile'))
+        return render_template('editprofile.html', name = name, email = email, sem = sem, sec = sec, ph = ph)
+    else:
+            return redirect(url_for("login"))  
+@app.route('/')
+def aboutus():
+    return render_template('aboutus.html')
 if __name__ == "__main__":
     app.run(debug=True)

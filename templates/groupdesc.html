@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+              <font color="red">{{ message }}</font>
+            {% endfor %}
+        {% else %}
+        <br>
+        {% endif %}
+    {% endwith %}
+    <table border="1px">
+            <tr>
+                <th>Group No.</th>
+                <th>Subject</th>
+                <th>Max Allowed</th>
+                <th>Current Count</th>
+                <th>Add/Modify Description</th>
+            </tr>
+            
+            {% for group in groups %}
+            <tr>
+                <td>{{group[0]}}</td>
+                <td>{{group[1]}}</td>
+                <td>{{group[2]}}</td>
+                <td>{{group[3]}}</td>
+                <td><a href = "/adddatetime/{{group[0]}}">Add/Modify description for group {{group[0]}}</a></td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+        <br>
+        <br>
+          
+</body>
+</html>

@@ -1,0 +1,105 @@
+<head>
+
+    <title>College Application</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="first page style.css"> -->
+    <link href="{{url_for('static',filename='css/front-page-style.css')}}" rel="stylesheet" type="text/css" media="all">
+    <style>
+    	body {
+ background-image: url({{ url_for('static',filename='css/120.jpg')  }});
+ background-color: #cccccc;
+}
+        .container {
+            padding: 80px 120px;
+        }
+        
+        .img-cirle person {
+            border: 10px solid transparent;
+            margin-bottom: 25px;
+            width: 50%;
+            height: 50%;
+            opacity: 0.7;
+        }
+        
+        .person:hover {
+            border-color: #f1f1f1;
+        }
+        
+        input[type="text"] {
+            outline: none;
+            font-size: 1.1em;
+            margin: 4px 0px 18px 1px;
+            color: black;
+            padding: 10px 38px;
+            border: none;
+            border-radius: 2px;
+            width: 68%;
+            font-family: 'Lato', sans-serif;
+        }
+        .topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 20px 15px;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}  
+    </style>
+</head>
+
+<body>
+    <h1 align="center">About Us</h1>
+    <div class="topnav">
+      <a href="{{ url_for('home') }}">  Home</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <a href="{{ url_for('sfg') }}">CGPA Calculator</a>
+      <a href="{{ url_for('select')}}">Attendance</a>
+      <a href="{{ url_for('creategroup') }}">Generate Study Groups</a>
+      <a href="{{ url_for('groups') }}">Existing Study Groups</a>
+      <a href="{{ url_for('addevent')}}">Generate Events</a>
+      <a href="{{ url_for('events')}}">View Events</a>
+      <a href="{{ url_for('stats')}}">Stats</a>
+      <a href= "{{ url_for('aboutus') }}">About US</a>
+      <a href = "{{ url_for('login')}}">Login</a>
+      <a href="{{ url_for('logout') }}">   Logout</a>
+   </div>
+    <div id="about" class="container-fluid">
+   		<br>
+   		<br>	
+        <p align="center">Our project “College Application” is a web application, which provides a simple interface for student-faculty information. It can be used by educational institutes or colleges to maintain the records of students easily. It handles all the academic and non-academic activities of an academic institute which can be accessed by the student and the faculty.</p><br>
+        <p align="center">This is a college website which is designed to aid students to properly plan their absentism, study schedules, facilitates to explore all the events taking place in the college, collaborate with like-minded students to study in a group and receive the mentoring they need. The details are protected, user-friendly and enabled convenient access to different kinds of information and services</p>
+    </div>
+    <div id="contact" class="container text-center">
+        <a href="{{url_for('home')}}"><h3>College Application</h3></a>
+        <p>We have created a college website</p>
+        <br>
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="{{url_for('static',filename='user.png')}}" class="img-circle person" alt="Random Name" width="100" height="100">
+                <p class="text-center"><strong>Manas Sharma</strong></p><br>
+            </div>
+            <div class="col-sm-4">
+                <img src="{{url_for('static',filename='user.png')}}" class="img-circle person" alt="Random Name" width="100" height="100">
+                <p class="text-center"><strong>Meghana M</strong></p><br>
+            </div>
+            <div class="col-sm-4">
+                <img src="{{url_for('static',filename='user.png')}}" class="img-circle person" alt="Random Name" width="100" height="100">
+                <p class="text-center"><strong>Mrudul A Katti</strong></p><br>
+            </div>
+        </div>
+    </div>
+</body>

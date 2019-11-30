@@ -1,9 +1,60 @@
 <!DOCTYPE html>
 <head>
-	Yaya
-	<title>asoijfls</title>
+	<title>Events</title>
+	<link rel="stylesheet"  type="text/css" href="css/even.css">
 </head>
 <body>
-Hello 
+	<header>
+		{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for category,message in messages %}
+             <p style="color: red">{{ message }}</p>
+            {% endfor %}
+        {% else %}
+        <p>&nbsp</p>
+        {% endif %}
+    {% endwith %}
+		<br>
+		<br>
+     <form method='POST'>
+			 <div class="search_categories">
+ 				<div class="select">
+ 					<select name="search_categories" id="search_categories">
+						<option value="all">All</option>
+            <option value="IEEE">IEEE</option>
+            <option value="ISSA">ISSA</option>
+            <option value="ONYX">ONYX</option></div>
+        </select>
+			</div>
+		</div>
+		<div class="wrapper">
+			<button class="butn" type="submit" value="Submit"><b>Submit</b></button>
+		</div>
+				<br>
+     </form>
+    <!--<a href="/creategroup">Create new group</a><br>-->
+    <!-- {{groups}} -->
+    <table align="center" id="students">
+        <tr>
+            <th>Club</th>
+            <th>Event Name</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Venue</th>
+        </tr>
+        {% for event in events %}
 
+            <tr>
+                <td>{{event[0]}}</td>
+                <td>{{event[1]}}</td>
+                <td>{{event[2]}}</td>
+                <td>{{event[3]}}</td>
+                <td>{{event[4]}}</td>
+                <td>{{event[5]}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</header>
 </body>
+</html>

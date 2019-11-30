@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Profile</title>
+    <link rel="stylesheet"  type="text/css" href="{{ url_for('static',filename='css/editprofilec.css') }}">
+    <style>
+
+        input
+         {
+           width: 13%;
+           padding: 8px 6px 8px 12px;
+           background: #fff;
+           border: 1px solid #000;
+           text-align: center;
+
+         }
+  </style>
+</head>
+<body>
+  <header>
+    <br>
+    <h1 align="center">
+        EDIT PROFILE
+    </h1>
+    <div class="cent">
+    <h2><b>Edit Information:</b></h2>
+    <form method="POST">
+        <p>
+            <I>
+                Enter new values if you want to edit. Leave it as it is if no change is to be made.
+            </I>
+        </p>
+        <br>
+      </div>
+        <div class="menu" align="center">
+        <b>NAME</b>
+        <br>
+        <input type="text" name="nname" id="" value = "{{name}}">
+        <br>
+        <br>
+        <b>EMAIL</b>
+        <br>
+        <input type="email" name="nemail" id="" value = "{{email}}">
+        <br>
+        <br>
+        <b>SEMESTER</b>
+        <br>
+        <input type="text" name="nsem" id="" value = "{{sem}}">
+        <br>
+        <br>
+        <b>SECTION</b>
+        <br>
+        <input type="text" name="nsec" id="" value = "{{sec}}">
+        <br>
+        <br>
+        <b>PHONE NUMBER</b>
+        <br>
+        <input type="text" name="nphone" id="" value = "{{ph}}">
+        <br>
+        <br>
+      </div>
+        <div class="wrapper" >
+        <button class="butn" type="submit" value="Submit"><b>Submit</b></button>
+        </div>
+    </form>
+</header>
+</body>
+</html>

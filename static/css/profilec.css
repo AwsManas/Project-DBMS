@@ -1,0 +1,33 @@
+*
+{
+  margin: 0;
+  padding: 0;
+}
+
+header
+{
+  background: url('120.jpg');
+  height: 98vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.menu
+{
+  position: relative;
+  left: 20px;
+  font-family: monospace;
+  font-size: 19px;
+  text-align: center;
+}
+
+.cent a
+{
+  position: relative;
+  left: 40px;
+  font-size: 20px;
+  text-decoration: none;
+  font-family: monospace;
+  display: block;
+  font-size: 20px;
+}

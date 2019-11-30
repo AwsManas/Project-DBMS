@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Groups | Events</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet"  type="text/css" href="{{ url_for('static',filename='css/eventgroupc.css') }}}">
+</head>
+<body>
+  <header>
+    <br>
+    <br>
+    <br><br>
+	<h3 align="center">THE GROUPS YOU ARE A PART OF:</h3>
+					<table id="students" align="center">
+			      		<tr>
+								<th>USN</th>
+								<th>SUBJECTS</th>
+								<th>DATE</th>
+								<th>VENUE</th>
+								<th>TIME</th>
+							</tr>
+							<tr>
+								{% for final in sfinal%}
+								<td>{{final[0]}}</td>
+								<td>{{final[1]}}</td>
+								<td>{{final[2]}}</td>
+								<td>{{final[3]}}</td>
+								<td>{{final[4]}}</td>
+							    {% endfor %}
+							</tr>
+					</table>
+<br>
+<br>
+<br>
+<br>
+<h3 align="center">THE EVENTS YOU HAVE REGISTERED FOR:</h3>
+<table id="students" align="center">
+	<tr>
+
+		<th>USN</th>
+		<th>EVENT NAME</th>
+		<th>DATE</th>
+		<th>VENUE</th>
+		<th>TIME</th>
+	</tr>
+		{% for final in efinal %}
+		<tr>
+			<td>{{final[0]}}</td>
+			<td>{{final[1]}}</td>
+			<td>{{final[2]}}</td>
+			<td>{{final[3]}}</td>
+			<td>{{final[4]}}</td>
+		</tr>
+		{% endfor %}
+
+
+</table>
+</header>
+</body>
+</html>

@@ -1,0 +1,73 @@
+header
+{
+  background: url('120.jpg');
+  height: 98vh;
+  background-size: cover;
+  background-position: center;
+}
+.menn
+{
+  position: relative;
+  left: 300px;
+}
+.butn
+{
+  background-color: #347ADB;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  font-family: monospace;
+  color: white;
+  width: 10%;
+}
+
+.button
+{
+    position: absolute;
+    top: 50%;
+}
+
+.wrapper
+{
+  position: relative;
+  left: 50vh;
+}
+
+.search_categories
+{
+  font-size: 13px;
+  padding: 8px 6px 8px 12px;
+  width: 9%;
+  font-family: monospace;
+  background: #fff;
+  border: 1px solid #000;
+  overflow: visible;
+  position: relative;
+  left: 500px;
+  top: -8vh;
+}
+
+.search_categories .select
+{
+  width: 85%;
+}
+
+.search_categories .select select{
+  background: transparent;
+  line-height: 1;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  width: 120%;
+  position: relative;
+  font-family: monospace;
+  z-index: 10;
+  font-size: 17px;
+}
+
+@media only screen and(max-width:678px) {
+  .bg{
+    background-size: 200%;
+  }
+}
