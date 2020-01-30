@@ -411,6 +411,13 @@ def events():
             event_details = cur.fetchall()# Fetches all the rows in the table
         else:
             event_details = "No events at the moment."
+        
+        events1 = cur.execute("select distinct club from events") #fetches the number of rows in the table
+        if events1:
+            distevents = cur.fetchall()# Fetches all the rows in the table
+        else:
+            distsevents = "No events at the moment."
+        
         msg1 = ""
         msg2 = ""
         curdate = ''
@@ -466,9 +473,9 @@ def events():
                 else:
                     event_details = " "
            
-            return render_template('events2.html', events = event_details)
+            return render_template('events2.html', events = event_details, distevents= distevents)
         else:
-            return render_template('events2.html', events = event_details)
+            return render_template('events2.html', events = event_details, distevents= distevents)
     else:
         return redirect(url_for('login'))            
 

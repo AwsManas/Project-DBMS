@@ -125,10 +125,10 @@
                 <div class="select">
                     <select name="club" id="search_categories">
                         <option value="all">All</option>
-            <option value="IEEE">IEEE</option>
-            <option value="ISSA">ISSA</option>
-            <option value="ONYX">ONYX</option>
-            <option value="ROBOTICS">ROBOTICS</option></div>
+                        {% for event in distevents %}
+                            <option value="{{event[0]}}">{{event[0]}}</option>
+                        {% endfor %}
+                        </div>
         </select>
             </div>
         </div>
